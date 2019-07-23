@@ -133,7 +133,7 @@ var UserRegister = Vue.extend({
                 ],
                 password: [
                     { required: true, message: '비밀번호를 입력해 주세요.', trigger: 'blur' },
-                    { min: 4, max: 50, message: '비밀번호는 4자리이상 부터 입력해주세요.', trigger: 'blur' }
+                    { min: 1, max: 50, message: '비밀번호는 1자리이상 부터 입력가능합니.', trigger: 'blur' }
                 ],
                 name: [
                     { required: true, message: '이름을 입력해 주세요.', trigger: 'blur' },
