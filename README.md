@@ -13,4 +13,4 @@
 ## jar파일 다운로드 경로
 app-0.0.1-SNAPSHOT.jar 다운로드 경로 :
 
-https://drive.google.com/open?id=11qYUreiZfNLxq1DUb9BDs3qgEsYy_0W_
+https://github.com/kabb91/search-book-service/releases/download/v0.0.1/app-0.0.1-SNAPSHOT.jar
