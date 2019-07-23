@@ -17,7 +17,7 @@ spring:
 kakao:
   host: https://dapi.kakao.com
   api: /v3/search/book?
-  token: 740a8e2bc6bbd426c67d208f48c997e
+  token: 740a8e2bc6bbd426c67d208f48c997e7
 
 naver: 
   host: https://openapi.naver.com
