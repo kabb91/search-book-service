@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <title> 책 서비스 검색 </title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <main id="app">
+            <router-view></router-view>
+        </main>
+    </div>
+
+    <template id="search-book">
+        <div style="margin-top: 15px;">
+            <div id="search" style="float:left;">
+                <h1> 책 검색 서비스 </h1>
+            </div>
+            <template>
+                <el-row>
+                    <el-button type="success" style="margin-left: 50px; margin-top: 15px;" v-on:click="goToHistoryPage">
+                        나의 검색 이력 </el-button>
+                    <el-button type="success" style="margin-right: 80px; margin-top: 15px; float: right;"
+                        v-on:click="logOutPage"> 로그아웃 </el-button>
+                </el-row>
+            </template>
+            <div style="width: 75%; float:left; ">
+                <el-select v-model="select" slot="prepend" placeholder="제목" style="width: 10%">
+                    <el-option label="통합검색" value="total"></el-option>
+                    <el-option label="제목" value="title"></el-option>
+                    <el-option label="isbn" value="isbn"></el-option>
+                    <el-option label="출판사" value="publisher"></el-option>
+                    <el-option label="인명" value="person"></el-option>
+                </el-select>
+                <input placeholder="무엇이든 입력하세요" v-model="search" @keyup.enter="searchBook" size="medium"
+                    class="input-with-select" style="width: 50%; height: 33px;">
+
+                <el-button slot="append" icon="el-icon-search" v-on:click="searchBook"> </el-button>
+                </el-input>
+
+                <el-table :data="pageArray" height="600" style="width: 70%">
+                    <el-table-column type="expand">
+                        <template slot-scope="props">
+                            <img :src="props.row.thumbnail">
+                            <p>제목 : {{ props.row.title }}</p>
+                            <p>소개 : {{ props.row.contents }}</p>
+                            <p>ISBN : {{ props.row.isbn }}</p>
+                            <p>저자 : {{ props.row.authors }}</p>
+                            <p>출판사 : {{ props.row.publisher }}</p>
+                            <p>출판일 : {{ props.row.publicationDate }}</p>
+                            <p>정가 : {{ props.row.price }}</p>
+                            <p>판매가 : {{ props.row.salePrice }}</p>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="title" label="제목" width="180">
+                    </el-table-column>
+                    <el-table-column prop="authors" label="지은이" width="180">
+                    </el-table-column>
+                    <el-table-column prop="salePrice" label="판매가">
+                    </el-table-column>
+                    <el-table-column prop="publisher" label="출판사">
+                    </el-table-column>
+                </el-table>
+                <el-pagination layout="prev, pager, next" :total="totalCount" @current-change="current_change">
+                </el-pagination>
+            </div>
+            <div style="width: 20%;float:left; ">
+                <template>
+                    <el-table :data="keywordList" border style="width: 100%">
+                        <el-table-column type="index" width="50">
+                        </el-table-column>
+                        <el-table-column prop="keyword" label="키워드" width="180">
+                        </el-table-column>
+                        <el-table-column prop="cnt" label="검색 횟수">
+                        </el-table-column>
+                    </el-table>
+                </template>
+
+            </div>
+        </div>
+        </div>
+    </template>
+
+
+    <template id="user-login-page">
+        <div class="out" style="width: 100%;text-align: center;">
+            <div class="in" style="display: inline-block;vertical-align: middle;">
+                <h1>책 검색 서비스</h1>
+                <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="ruleForm">
+                    <el-form-item label="아이디: " prop="id" style="ime-mode:disabled">
+                        <el-input v-model="ruleForm.id" style="ime-mode:disabled"></el-input>
+                    </el-form-item>
+                    <el-form-item label="비밀번호: " prop="password">
+                        <el-input v-model="ruleForm.password" show-password></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" @click="onSubmit">로그인</el-button>
+                        <el-button @click="goToPages">회원가입</el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+        </div>
+    </template>
+
+    <template id="user-register-page">
+        <div class="out" style="width: 100%; text-align: center;">
+            <div class="in" style="display: inline-block;vertical-align: middle;">
+                <h1> 회원가입 </h1>
+                <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="ruleForm">
+                    <el-form-item label="아이디: " prop="id">
+                        <el-input v-model="ruleForm.id"></el-input>
+                    </el-form-item>
+                    <el-form-item label="비밀번호: " prop="password">
+                        <el-input v-model="ruleForm.password" show-password></el-input>
+                    </el-form-item>
+                    <el-form-item label="이름: " prop="name">
+                        <el-input v-model="ruleForm.name"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" @click="onSubmit">회원가입</el-button>
+                        <el-button @click="goToPages">취소</el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+        </div>
+    </template>
+    <template id="my-history-page">
+        <div style="margin-top: 15px;">
+            <div id="history" style="float:left;">
+                <h1> 나의 검색 히스토리 </h1>
+            </div>
+            <template>
+                <el-row>
+                    <el-button type="success" style="margin-left: 50px; margin-top: 15px;" v-on:click="goToSearchPage">
+                        책 검색 서비스로 이동 </el-button>
+                    <el-button type="success" style="margin-right: 80px; margin-top: 15px; float: right;"
+                        v-on:click="logOutPage"> 로그아웃 </el-button>
+                </el-row>
+            </template>
+            <template>
+                <el-table :data="history" style="width: 100%">
+                    <el-table-column prop="query" label="키워드" width="180">
+                    </el-table-column>
+                    <el-table-column prop="searchDate" label="검색 일시" width="180">
+                    </el-table-column>
+                </el-table>
+            </template>
+        </div>
+    </template>
+    <script src="https://unpkg.com/vue@2.5.22/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router@3.0.2/dist/vue-router.js"></script>
+    <script src="https://unpkg.com/axios@0.18.0/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="https:/unpkg.com/element-ui/lib/umd/locale/ko.js"></script>
+    <script src="/searchBook.js"></script>
+    <script>
+        ELEMENT.locale(ELEMENT.lang.ko)
+    </script>
+
+</body>
+
+</html>

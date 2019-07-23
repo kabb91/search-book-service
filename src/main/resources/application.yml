@@ -1,0 +1,28 @@
+server:
+  port: 8080
+  
+spring:
+  application:
+    name: book-search-service
+    
+  freemarker:
+    suffix: .html
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+
+kakao:
+  host: https://dapi.kakao.com
+  api: /v3/search/book?
+  token: 740a8e2bc6bbd426c67d208f48c997e
+
+naver: 
+  host: https://openapi.naver.com
+  apibasic: /v1/search/book.xml?
+  apidetail: /v1/search/book_adv.xml?
+  token1: ntrgm8es3QKNKeyPmrZX
+  token2: B7esNKzcqo
+  
