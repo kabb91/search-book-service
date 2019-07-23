@@ -12,6 +12,7 @@
 	<groupId>com.kabby</groupId>
 	<artifactId>app</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<name>book-search-app</name>
 	<description>Book Search App for Spring Boot</description>
 
