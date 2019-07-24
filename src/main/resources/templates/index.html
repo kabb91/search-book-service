@@ -36,12 +36,11 @@
                     <el-option label="출판사" value="publisher"></el-option>
                     <el-option label="인명" value="person"></el-option>
                 </el-select>
-                <input placeholder="무엇이든 입력하세요" v-model="search" @keyup.enter="searchBar" size="medium"
-                   style="width: 50%; height: 33px;"/>
+                <input placeholder="무엇이든 입력하세요" v-model="search" @keyup.enter.press="searchBar" size="medium"
+                   style="width: 50%; height: 33px;">
 
                 <el-button slot="append" icon="el-icon-search" v-on:click="searchBar"> </el-button>
                 
-
                 <el-table :data="pageArray" height="600" style="width: 70%">
                     <el-table-column type="expand">
                         <template slot-scope="props">
@@ -151,7 +150,7 @@
             </template>
         </div>
     </template>
-    <script src="https://unpkg.com/vue@2.5.22/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue@2.6.10/dist/vue.js"></script>
     <script src="https://unpkg.com/vue-router@3.0.2/dist/vue-router.js"></script>
     <script src="https://unpkg.com/axios@0.18.0/dist/axios.min.js"></script>
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>

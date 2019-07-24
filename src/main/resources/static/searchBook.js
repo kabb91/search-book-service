@@ -28,14 +28,14 @@ var SearchBook = Vue.extend({
         this.getKeywordRank();
     },
     methods: {
-       
-        searchBar: function () {
+    	
 
+        searchBar: function () {
         	
             axios.get('/search/book?' + 'target=' + this.select + '&query=' + this.search + "&size=10" + "&page=" + this.currentPage)
                 .then(response => {
 
-                    console.log("test");
+                    
                     this.pageArray = response.data.books;
                     this.totalCount = parseInt(response.data.meta.total_count / 10) + 1;
                     this.searchHistroy();
