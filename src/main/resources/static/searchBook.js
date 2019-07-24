@@ -28,18 +28,17 @@ var SearchBook = Vue.extend({
         this.getKeywordRank();
     },
     methods: {
-        fixEstLogcDscr: function (e) {
-            this.estLogcDscr = e.target.value;
-        },
-        searchBook: function () {
+       
+        searchBar: function () {
 
-
+        	
             axios.get('/search/book?' + 'target=' + this.select + '&query=' + this.search + "&size=10" + "&page=" + this.currentPage)
                 .then(response => {
 
-                    this.searchHistroy();
+                    console.log("test");
                     this.pageArray = response.data.books;
                     this.totalCount = parseInt(response.data.meta.total_count / 10) + 1;
+                    this.searchHistroy();
                     this.getKeywordRank();
                    
 
