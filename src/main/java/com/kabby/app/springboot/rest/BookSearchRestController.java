@@ -23,6 +23,16 @@ public class BookSearchRestController {
 		this.searchBookService = searchBookService;
 	}
 
+	
+	/**
+	 * 책 검색을 Kakao API 또는 Naver API의 값을 가져와서 책 검색 결과를 보여준다.
+	 * 
+	 * @param target
+	 * @param query
+	 * @param size
+	 * @param page
+	 * @return
+	 */
 	@GetMapping("/book")
 	public Object findBooks(@RequestParam(value = "target", required = false) String target,
 						    @RequestParam(value = "query") String query, 

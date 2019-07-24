@@ -52,15 +52,15 @@
                             <p>저자 : {{ props.row.authors }}</p>
                             <p>출판사 : {{ props.row.publisher }}</p>
                             <p>출판일 : {{ props.row.publicationDate }}</p>
-                            <p>정가 : {{ props.row.price }}</p>
-                            <p>판매가 : {{ props.row.salePrice }}</p>
+                            <p>정가 (원) : {{ props.row.price }}</p>
+                            <p>판매가(원) : {{ props.row.salePrice }}</p>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="title" label="제목" width="180">
+                    <el-table-column prop="title" label="제목" width="180" >
                     </el-table-column>
                     <el-table-column prop="authors" label="지은이" width="180">
                     </el-table-column>
-                    <el-table-column prop="salePrice" label="판매가">
+                    <el-table-column prop="price" label="정가 (원)">
                     </el-table-column>
                     <el-table-column prop="publisher" label="출판사">
                     </el-table-column>

@@ -24,6 +24,8 @@ public class SearchBookService {
 
 	@Autowired
 	NaverSearchBookApiHelper naverSearchBookApiHelper;
+	
+	static final int ABNORMAL_SALE_PRICE=0;
 
 	/**
 	 * 
@@ -67,7 +69,15 @@ public class SearchBookService {
 			book.setPublisher(document.getString("publisher"));
 			book.setPublicationDate(document.getString("datetime"));
 			book.setPrice(document.getInt("price"));
-			book.setSalePrice(document.getInt("sale_price"));
+			
+			
+			if(document.getInt("sale_price")== -1) {
+				int abnormalitySalePrice = ABNORMAL_SALE_PRICE;
+				book.setSalePrice(abnormalitySalePrice);
+			}else {
+				book.setSalePrice(document.getInt("sale_price"));
+			}
+			
 			JSONArray authorsArr = document.getJSONArray("authors");
 
 			String[] authors = new String[authorsArr.length()];
@@ -85,8 +95,7 @@ public class SearchBookService {
 		bookMeta.setEnd(meta.getBoolean("is_end"));
 		bookMeta.setPageableCount(meta.getInt("pageable_count"));
 
-		System.out.println(bookMeta.toString());
-		
+				
 		JSONObject result = new JSONObject();
 		result.put("meta", meta);
 		result.put("books", bookList);
@@ -99,6 +108,9 @@ public class SearchBookService {
 	/**
 	 * 
 	 * Naver API을 통해서 책 검색 한다.
+	 * 
+	 * 책 기본 검색일때와 상세 검색일때 각각 다르게 API를 호출(XML형태로 읽어서 JSON으로 변환)해서 결과를 가져온다. 
+	 * 
 	 * 
 	 * @param targe
 	 * @param query
@@ -135,6 +147,7 @@ public class SearchBookService {
 		List<Book> bookList = new ArrayList<Book>();
 		String naverApiConvertString = null;
 		
+		
 		if(!targe.equals("total")) {
 			
 			naverApiConvertString = naverSearchBookApiHelper.getMessageToMeDetail(params).toString();
@@ -156,12 +169,22 @@ public class SearchBookService {
 			for (int i = 0; i < documents.length(); i++) {
 				Book book = new Book();
 				JSONObject document = documents.getJSONObject(i);
-				book.setTitle(document.getString("title"));
-				book.setThumbnail(document.getString("image"));
-				book.setContents(document.getString("description"));
+				
+				String scReplaceTitle = document.getString("title").replaceAll("<b>", "").replaceAll("</b>", "");
+				book.setTitle(scReplaceTitle);
+				
+				book.setThumbnail(document.getString("image"));		
+				
+				String scReplaceDescription = document.getString("description").replaceAll("<b>", "").replaceAll("</b>", "");
+				book.setContents(scReplaceDescription);
+								
 				book.setIsbn(document.get("isbn").toString());
-				book.setPublisher(document.getString("publisher"));
+				
+				String scReplacePublisher = document.getString("publisher").replaceAll("<b>", "").replaceAll("</b>", "");
+				book.setPublisher(scReplacePublisher);
+				
 				book.setPublicationDate(Integer.toString(document.getInt("pubdate")));
+				
 				book.setPrice(document.getInt("price"));
 				
 				try {
@@ -173,7 +196,7 @@ public class SearchBookService {
 				}catch (Exception e) {
 					e.getMessage();
 				}
-				String[] authors = { document.getString("author") };
+				String[] authors = { document.getString("author").replaceAll("<b>", "").replaceAll("</b>", "").replaceAll("\"", "").replaceAll("\\|", " , ") };
 
 				book.setAuthors(authors);
 				bookList.add(book);

@@ -4,6 +4,14 @@
  */
 var SearchBook = Vue.extend({
     template: '#search-book',
+    beforeCreate() {
+    	if(sessionStorage.getItem('userId')==null){
+    		alert("잘못된 접근입니다. 로그인 화면으로 이동 합니다.");
+    		this.$router.push({
+                name: 'user-login-page'
+            })
+    	}
+    },
     data() {
         return {
             search: '',
@@ -33,6 +41,7 @@ var SearchBook = Vue.extend({
                     this.pageArray = response.data.books;
                     this.totalCount = parseInt(response.data.meta.total_count / 10) + 1;
                     this.getKeywordRank();
+                   
 
                 }).catch(error => console.log(error))
         },
@@ -79,6 +88,15 @@ var SearchBook = Vue.extend({
 */
 var MySearchHistory = Vue.extend({
     template: '#my-history-page',
+    beforeCreate() {
+    	if(sessionStorage.getItem('userId')==null){
+    		alert("잘못된 접근입니다. 로그인 화면으로 이동 합니다.");
+
+    		this.$router.push({
+                name: 'user-login-page'
+            })
+    	}
+    },
     data() {
         return {
             history: [],

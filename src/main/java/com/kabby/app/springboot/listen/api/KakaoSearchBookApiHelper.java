@@ -73,8 +73,8 @@ public class KakaoSearchBookApiHelper {
 
 			final int responseCode = conn.getResponseCode();
 
-			logger.info(String.format("\nSending '%s' request to URL : %s", httpMethod, requestUrl));
-			logger.info(String.format("Response Code", responseCode));
+			logger.debug(String.format("\nSending '%s' request to URL : %s", httpMethod, requestUrl));
+			logger.debug(String.format("Response Code", responseCode));
 
 			if (responseCode == 200)
 				isr = new InputStreamReader(conn.getInputStream());
@@ -90,7 +90,7 @@ public class KakaoSearchBookApiHelper {
 			while ((line = reader.readLine()) != null) {
 				buffer.append(line);
 			}
-			logger.info(buffer.toString());
+			logger.debug(buffer.toString());
 			return buffer.toString();
 
 		} catch (IOException e) {

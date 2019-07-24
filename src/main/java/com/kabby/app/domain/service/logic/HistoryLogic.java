@@ -59,8 +59,6 @@ public class HistoryLogic implements HistoryService {
 	        TreeMap<String,Long> sortedMap = new TreeMap<String,Long>(bvc);
 	        sortedMap.putAll(keyWordTop10);
 	       
-	       
-	        
 	        
 	        for(Entry<String, Long> entry: sortedMap.entrySet()) {
 	        	HashMap<String, Object> rankResult = new HashMap<>();
