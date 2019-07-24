@@ -35,10 +35,10 @@ var SearchBook = Vue.extend({
             axios.get('/search/book?' + 'target=' + this.select + '&query=' + this.search + "&size=10" + "&page=" + this.currentPage)
                 .then(response => {
 
-                    
+                	this.searchHistroy();
                     this.pageArray = response.data.books;
                     this.totalCount = parseInt(response.data.meta.total_count / 10) + 1;
-                    this.searchHistroy();
+                    
                     this.getKeywordRank();
                    
 
